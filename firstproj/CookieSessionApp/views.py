@@ -8,6 +8,8 @@ from django.contrib.auth import authenticate
 from django.contrib import auth
 from django.contrib.auth.models import User
 
+from CookieSessionApp.form import PostForm
+
 # Create your views here.
 # 新增設定cookie函式
 def set_cookie(request,key=None,value=None):
@@ -135,8 +137,8 @@ def logout(request):
 """
 def mypage(request):
 	if request.user.is_authenticated:
-	   name=request.user.username
-	return render(request, "cookies/mypage.html", locals())
+		name=request.user.username
+	return render(request, "mypage.html", locals())
 
 def login(request):
 	if request.method == 'POST':
@@ -152,7 +154,7 @@ def login(request):
 				mess = '帳號尚未啟用！'
 		else:
 			mess = '登入失敗！'
-	return render(request, "cookies/login.html", locals())
+	return render(request, "login.html", locals())
 	
 def logout(request):
 	auth.logout(request)
@@ -160,7 +162,6 @@ def logout(request):
 
 def adduser(request):	
 	try:
-		# 抓取單一使用者資訊
 		user=User.objects.get(username="test")
 	except:
 		user=None
@@ -176,16 +177,16 @@ def adduser(request):
 		return redirect('/admin/')
 
 def register(request):
-	if request.method == "POST":      #如果是以POST方式才處理
-		username = request.POST['username'] #取得表單輸入資料
-		password = request.POST['password']
-		email =  request.POST['email']
-		first_name =  request.POST['first_name']
-		last_name = request.POST['last_name']
-		user=User.objects.create_user(username,email,password)
-		user.first_name=first_name # 姓名
-		user.last_name=last_name  # 姓氏
+	userform = PostForm()
+	if request.method == "POST":
+		userName = request.POST['userName']
+		userPassword = request.POST['userPassword']
+		userEmail = request.POST['userEmail']
+		userFirstName = request.POST['userFirstName']
+		userLastName = request.POST['userLastName']
+		user=User.objects.create_user(userName,userEmail,userPassword)
+		user.first_name=userFirstName # 姓名
+		user.last_name=userLastName  # 姓氏
 		user.save()
-	else:
-		mess = '請輸入資料'
-	return render(request, "cookies/register.html", locals())
+		return redirect('/mypage/')
+	return render(request, "register.html", locals())

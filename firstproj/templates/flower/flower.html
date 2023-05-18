@@ -4,7 +4,6 @@
 <br>
 <br>
 <br>
-{{ request.user.get_all_permissions }}
 <div class="card-columns">
     {% for flower in flowers %}
     <div class="card">
@@ -18,12 +17,9 @@
         <a href="/admin/flower/flower/{{ flower.id }}/change/" class="card-link">Edit</a>
         <a href="/admin/flower/flower/{{ flower.id }}/delete/" class="card-link">Delete</a>
         -->
-        {% if perms.flower.change_flower %}
         <a href="{% url 'edit' pk=flower.pk %}" class="card-link">Edit</a>
-        {% endif%}
-        {% if perms.flower.delete_flower %}
         <a href="{% url 'delete' pk=flower.pk %}" class="card-link">Delete</a>
-        {% endif%}
+
 
         <hr>
 

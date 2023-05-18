@@ -26,24 +26,25 @@ def showpost(request, pageindex=None):  #首頁
 			boardunits = models.BoardUnit.objects.order_by('-id')[start:(start+pagesize)]
 			page += 1
 	currentpage = page + 1  #將目頁前頁面以區域變數傳回html
-	return render(request, "showpost.html", locals())
-def addpost(request):
-	if request.method =="POST":
-		postform = form.PostForm(request.POST)
-		if postform.is_valid():
-			title = postform.cleaned_data['btile']
-			name = postform.cleaned_data['bname']
-			gender = postform.cleaned_data['bgender',None]
-			email = postform.cleaned_data['bemail']
-			content = postform.cleaned_data['bcontent']
-			unit = models.BoardUnit.objects.create(bname=name, bgender=gender, btile=title, bemail=mail, bcontent=content, bresponse='')
-			unit.save()
-			messages ='以儲存...'
-			postform = forms.PostForm()
-			return redirect('/showpost/')
+	return render(request, "boardapp/showpost.html", locals())
+
+def addpost(request):  #新增留言
+	if request.method == "POST":  #如果是以POST方式才處理
+		postform = forms.PostForm(request.POST)  #建立forms物件
+		if postform.is_valid():  #通過forms驗證
+		  title = postform.cleaned_data['btitle']  #取得輸入資料
+		  name =  postform.cleaned_data['bname']
+		  gender =  request.POST.get('bgender', None)
+		  email = postform.cleaned_data['bemail']
+		  content =  postform.cleaned_data['bcontent']
+		  unit = models.BoardUnit.objects.create(bname=name, bgender=gender, btitle=title, bemail=email, bcontent=content, bresponse='')  #新增資料記錄
+		  unit.save()  #寫入資料庫
+		  message = '已儲存...'
+		  postform = forms.PostForm()
+		  return redirect('/showpost/')	
 		else:
-			messages ='驗證法錯誤!'
+		  message = '驗證碼錯誤！'	
 	else:
-		messages = '標題、姓名、內容及驗證碼必須輸入!'
+		message = '標題、姓名、內容及驗證碼必須輸入！'
 		postform = forms.PostForm()
-	return render(request, "boardapp/addpost.html", local())
+	return render(request, "boardapp/addpost.html", locals())

@@ -1,14 +1,15 @@
-{% extends "news/base.html" %}
+{% extends "base.html" %}
 {% load static %}
-
+{% block content %}
+<br>
+<br>
+<br>
 {% block login %}
 	<div class="toplogin">
 		<a href="/newslogin/" title="登入管理介面">
 		<img src="{% static 'images/Lock.png' %}" alt="登入管理介面" width="32" height="32" /></a>
 	</div>
 {% endblock %}
-
-{% block content %}
 	<div class="contentbox">
 		<table width="100%">
 		<tr>

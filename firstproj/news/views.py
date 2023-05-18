@@ -55,7 +55,7 @@ def login(request):  #登入
 		if user1 is not None:  #驗證通過
 			if user1.is_active:  #帳號有效
 				auth.login(request, user1)  #登入
-				return redirect('/adminmain/')  #開啟管理頁面
+				return redirect('/newsadminmain/')  #開啟管理頁面
 			else:  #帳號無效
 				messages = '帳號尚未啟用！'
 		else:  #驗證未通過
@@ -64,7 +64,7 @@ def login(request):  #登入
 
 def logout(request):  #登出
 	auth.logout(request)
-	return redirect('/index/')
+	return redirect('/newsindex/')
 
 def adminmain(request, pageindex=None):  #管理頁面
 	global page1
@@ -107,7 +107,7 @@ def newsadd(request):  #新增資料
 			enabled = False
 		unit = models.NewsUnit.objects.create(catego=category, nickname=editor, title=subject, message=content, enabled=enabled, press=0)
 		unit.save()
-		return redirect('/adminmain/')
+		return redirect('/newsadminmain/')
 	return render(request, "news/newsadd.html", locals())
 
 def newsedit(request, newsid=None, edittype=None):  #修改資料
@@ -135,7 +135,7 @@ def newsedit(request, newsid=None, edittype=None):  #修改資料
 		unit.message=content
 		unit.enabled=enabled
 		unit.save()
-		return redirect('/adminmain/')
+		return redirect('/newsadminmain/')
 	return render(request, "news/newsedit.html", locals())
 
 def newsdelete(request, newsid=None, deletetype=None):  #刪除資料
@@ -148,6 +148,6 @@ def newsdelete(request, newsid=None, deletetype=None):  #刪除資料
 		date = unit.pubtime
 	elif deletetype == '1':  #按刪除鈕
 		unit.delete()
-		return redirect('/adminmain/')
+		return redirect('/newsadminmain/')
 	return render(request, "news/newsdelete.html", locals())
 

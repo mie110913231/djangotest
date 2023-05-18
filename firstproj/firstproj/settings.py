@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--$3gu-_w9a&6=mj0h1+$#^l@#nrj3jltcza9x^8+s&e56-irb#'
+SECRET_KEY = 'django-insecure-e@s-v^nw7yhvk4f)d8d@#25)o1uiv$jn1qj@xv8si8w+0g24*v'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,22 +41,21 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    
     'widget_tweaks',
-    'boardapp',
-    'captcha',
 
     'myapp',
     'students',
     'CookieSessionApp',
     'flower',
     'news',
+    'boardapp',
+    'captcha',
 ]
-CAPTCHA_NOISE_FUNCTIONS = (
-    'captcha.helpers.noise_arcs',#線
-    'captcha.helpers.noise_dots',#點
 
+CAPTCHA_NOISE_FUNCTIONS = (
+    'captcha.helpers.noise_dots',
 )
+
 SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 LOGIN_REDIRECT_URL = '/flower/'
@@ -76,7 +75,7 @@ ROOT_URLCONF = 'firstproj.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        #'DIRS': [BASE_DIR / 'templates'],
+        # 'DIRS': [BASE_DIR / 'templates'],
         'DIRS': [os.path.join(BASE_DIR,'templates'), os.path.join(BASE_DIR,'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -138,7 +137,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'media/'

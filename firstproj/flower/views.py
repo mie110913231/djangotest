@@ -1,16 +1,13 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from flower.models import Flower
 from .forms import FlowerForm
+
 # Create your views here.
 def flowers(request):
-    q = request.GET.get('q', None)
-    flowers = ''
-    if q is None or q is "":
-        flowers = Flower.objects.all()
-    elif q is not None:
-        flowers = Flower.objects.filter(title__contains=q)
+    flowers = Flower.objects.all()
+
     return render(request, 'flower/flower.html', {'flowers': flowers })
-    
+
 def detail(request, slug=None):
     flower = get_object_or_404(Flower, slug=slug)
     return render(request, 'flower/detail.html', locals())
@@ -24,6 +21,7 @@ def create(request):
     else:
         form = FlowerForm()
     return render(request, 'flower/edit.html', {'form': form})
+
 def edit(request, pk=None):
     flower = get_object_or_404(Flower, pk=pk)
     if request.method == "POST":
@@ -33,10 +31,11 @@ def edit(request, pk=None):
             return HttpResponseRedirect('flower/')
     else:
         form = FlowerForm(instance=flower)
-        return render(request, 'flower/edit.html', {'form': form})
+
+    return render(request, 'flower/edit.html', {'form': form})
+
 def delete(request, pk=None):
     flower = get_object_or_404(Flower, pk=pk)
     flower.delete()
-    
-    return render(request, 'flower/')
 
+    return render(request, 'flower/')
